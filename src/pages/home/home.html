@@ -1,0 +1,111 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Home</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+
+<ion-grid>
+  <ion-row>
+    <ion-col col-8>
+        <ion-item>
+            <ion-label floating>City</ion-label>
+            <ion-input type="text"  [(ngModel)]="city"></ion-input>
+          </ion-item>
+    </ion-col>
+    <ion-col col-4>
+        
+        <ion-item>
+            <ion-label floating>State</ion-label>
+            <ion-input type="text"  [(ngModel)]="state"></ion-input>
+          </ion-item> 
+      </ion-col>
+
+      <ion-col col-12>
+        
+          <button ion-button block full (click)="search(city, state)">Go</button>
+
+      </ion-col>
+  </ion-row>
+</ion-grid>
+
+  
+<div [ngClass]="toggleWeather ? 'open' : 'popover'"  class="popover"> 
+    <ion-icon name="close" class="close" (click)="closeWeather()"></ion-icon>
+
+
+      <ion-slides pager  [ngClass]="todaysWeatherTemp >= 50 ? 'hot' : 'cold'">
+
+          <ion-slide>
+
+            <h2>Todays Weather:</h2>
+
+
+            <div>  
+                {{locationCity}} {{locationState}}
+              </div>
+          
+            
+                    <div class="temp">
+                       <p>
+                          <span>{{ todaysWeatherTemp }} °</span>
+          
+                         </p>
+                         <p>                          {{todaysWeatherCondition}}
+                          </p>
+                    </div>
+          </ion-slide>
+        
+          <ion-slide>
+            <h2>10 Day Forecast:</h2>
+
+            <ion-grid>
+                <ion-row>
+                  <ion-col col-6 *ngFor="let item of forecast">
+                      <ion-card>
+                          <p>High {{item.high}} </p> 
+                          <p>Low {{item.low}}</p>
+                           {{item.text}}
+                          <p>{{item.date}}</p> 
+                       </ion-card>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+  
+          </ion-slide>
+        
+          <ion-slide>
+            <h2>Slide 3</h2>
+
+            <small>
+                <pre>
+                  <code>
+                    {{currentWeather | json}}
+                  </code>
+                </pre>
+              </small>
+          </ion-slide>
+        
+        </ion-slides>
+
+
+
+
+
+         <!--lastUpdated | shortTime}}-->
+  
+  
+
+
+
+</div>
+
+
+
+</ion-content>
+
+
