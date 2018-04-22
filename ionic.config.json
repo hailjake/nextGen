@@ -4,5 +4,9 @@
   "type": "ionic-angular",
   "integrations": {
     "cordova": {}
-  }
+  },
+  "proxies": [{
+    "path": "/nearbysearch",
+    "proxyUrl": "https://maps.googleapis.com/maps/api/place/nearbysearch/"
+  }]
 }
