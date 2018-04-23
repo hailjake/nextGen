@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { HttpClient } from '@angular/common/http';
 import { Storage } from '@ionic/storage';
 import { LoadingController } from 'ionic-angular';
+import { PlacesPage } from '../places/places';
 
 @Component({
   selector: 'page-home',
@@ -32,8 +33,11 @@ export class HomePage {
   public humidity: Observable<any>;
   public toggleWeather: boolean = false;
   public recentSearches: Array<any> = [];
-  public lastUpdated: Array<any> = [];
+  public goToPlace: Array<any> = [];
 
+  public lastUpdated: Array<any> = [];
+  public lat: Observable<any>;
+  public long: Observable<any>;
   //Loader
   presentLoading() {
     let loader = this.loadingCtrl.create({
@@ -78,16 +82,20 @@ export class HomePage {
         this.humidity = data.query.results.channel.atmosphere.humidity;
         this.locationState = data.query.results.channel.location.region;
         this.description = data.query.results.channel.item.description;
+        this.lat = data.query.results.channel.item.lat;
+        this.long = data.query.results.channel.item.long;
         this.todaysWeatherTemp = data.query.results.channel.item.condition.temp;
         this.todaysWeatherCondition = data.query.results.channel.item.condition.text;
         this.todaysWeatherConditionCode = data.query.results.channel.item.condition.Code;
         this.forecast = data.query.results.channel.item.forecast;
         this.noData = false;
         this.toggleWeather = !this.toggleWeather;
-
+        console.log(data);
         this.recentSearches.push({
           recentCity: city,
           recentState: state,
+          lat: data.query.results.channel.item.lat,
+          long: data.query.results.channel.item.long,
           todaysWeatherTemp: data.query.results.channel.item.condition.temp,
           todaysWeatherCondition: data.query.results.channel.item.condition.text
 
@@ -131,6 +139,17 @@ export class HomePage {
     console.log(i);
     this.recentSearches.splice(i, 1);
     this.storage.set('RecentSearches', this.recentSearches);
+  }
+
+  goPlaces(lat, long) {
+    console.log(lat, long);
+    this.goToPlace.push({
+      lat: lat,
+      long: long
+    })
+    this.storage.set('Place', this.goToPlace);
+
+    this.navCtrl.push(PlacesPage);
   }
 
 }

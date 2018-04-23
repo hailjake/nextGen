@@ -5,7 +5,6 @@ import { HttpClient } from '@angular/common/http';
 import { Storage } from '@ionic/storage';
 import { LoadingController } from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
-import { NativeGeocoder, NativeGeocoderReverseResult, NativeGeocoderForwardResult } from '@ionic-native/native-geocoder';
 
 @Component({
     selector: 'page-places',
@@ -13,23 +12,17 @@ import { NativeGeocoder, NativeGeocoderReverseResult, NativeGeocoderForwardResul
 })
 
 export class PlacesPage {
-    constructor(public navCtrl: NavController, public httpClient: HttpClient, private storage: Storage, public loadingCtrl: LoadingController, private geolocation: Geolocation, private nativeGeocoder: NativeGeocoder) {
+    constructor(public navCtrl: NavController, public httpClient: HttpClient, private storage: Storage, public loadingCtrl: LoadingController, private geolocation: Geolocation) { }
 
 
-    }
 
-
-    public key: Observable<string>;
-
-    public places: Array<any>;
-    public placeData: Observable<any>;
     public lat: Observable<any>;
     public long: Observable<any>;
-
     public currentLat: number = null;
     public currentLong: number = null;
-
-
+    public fourPlaceData: Observable<any>;
+    public fourPlaces: Array<any>;
+    public goToPlace: Array<any> = [];
 
     //Loader
     presentLoading() {
@@ -43,51 +36,83 @@ export class PlacesPage {
     // On Load
     ngOnInit() {
         this.presentLoading();
-        this.getCoords(this.currentLat, this.currentLong);
-        this.nativeGeocoder.reverseGeocode(this.currentLat, this.currentLong)
-            .then((result: NativeGeocoderReverseResult) => console.log(JSON.stringify(result)))
-            .catch((error: any) => console.log(error));
+        //this.getCoords(this.currentLat, this.currentLong);
 
-    }
 
-    getCoords(currentLat, currentLong) {
-        currentLat = null;
-        currentLong = null;
-        this.geolocation.getCurrentPosition().then((resp) => {
-            this.currentLat = resp.coords.latitude;
-            this.currentLong = resp.coords.longitude;
-        }).catch((error) => {
-            console.log('Error getting location', error);
+        this.storage.get('Place').then((val) => {
+            if (val != null) {
+                this.goToPlace = val;
+                this.currentLat = val[0].lat;
+                this.currentLong = val[0].long;
+                this.fourApi(this.lat, this.long, this.currentLat, this.currentLong, this.fourPlaceData, this.fourPlaces);
+            } else {
+                console.log('no data');
+            }
+
         });
 
-        let watch = this.geolocation.watchPosition();
-        watch.subscribe((data) => {
-            // data can be a set of coordinates, or an error (if an error occurred).
-            this.currentLat = data.coords.latitude
-            this.currentLong = data.coords.longitude
-        });
+
 
     }
-
-
-    //  "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + lat + "," + long + "&radius=1500&type=restaurant&keyword=bar&key=AIzaSyBnUd-L4TY1Bj0pYxtowBTAWlZ_xTBBeAM"
-    // https://maps.googleapis.com/maps/api/place/textsearch/xml?query=restaurants+in+Irvine&key=AIzaSyBnUd-L4TY1Bj0pYxtowBTAWlZ_xTBBeAM
-
-
+    /*     getCoords(currentLat, currentLong) {
+            currentLat = null;
+            currentLong = null;
+            this.geolocation.getCurrentPosition().then((resp) => {
+                this.currentLat = resp.coords.latitude;
+                this.currentLong = resp.coords.longitude;
+            }).catch((error) => {
+                console.log('Error getting location', error);
+            });
+            let watch = this.geolocation.watchPosition();
+            watch.subscribe((data) => {
+                // data can be a set of coordinates, or an error (if an error occurred).
+                this.currentLat = data.coords.latitude
+                this.currentLong = data.coords.longitude
+            });
+        } */
 
     // open recent result with update
-    loadThingsToDo(places, lat, long, placeData, key, currentLat, currentLong) {
-        placeData = "";
-        places = [];
+    fourApi(lat, long, currentLat, currentLong, fourPlaceData, fourPlaces) {
+        fourPlaceData = "";
+        fourPlaces = [];
         lat = this.currentLat;
         long = this.currentLong;
-        key = "AIzaSyDV5DaD-baiwy3xNbrT36ALKIxncLq43U0";
-        console.log(this.currentLat, this.currentLong);
-        this.placeData = this.httpClient.get("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + lat + "," + long + "&radius=2500&type=restaurant&keyword=bar&key=" + key);
-        this.placeData
+        console.log(this.goToPlace, this.goToPlace);
+        this.fourPlaceData = this.httpClient.get("https://api.foursquare.com/v2/venues/search?ll=" + lat + "," + long + "&categoryId=4bf58dd8d48988d182941735,4d4b7104d754a06370d81259,4d4b7105d754a06374d81259&client_id=AZGPPKRH4O4VYXUAKN3BJZSGULVAJWTBGUVXKKLWU0W34DVQ&client_secret=SNSTJLXZGQHWKYQZA3PLIA3A1LYHWRKHFG43OXJGYJXIJ55I&v=20180522");
+        this.fourPlaceData
             .subscribe(data => {
-                this.places = data.results;
+                this.fourPlaces = data.response.venues;
             })
     }
 
 }
+
+
+
+
+
+
+    //  "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + lat + "," + long + "&radius=1500&type=restaurant&keyword=bar&key=AIzaSyBnUd-L4TY1Bj0pYxtowBTAWlZ_xTBBeAM"
+    // https://maps.googleapis.com/maps/api/place/textsearch/xml?query=restaurants+in+Irvine&key=AIzaSyBnUd-L4TY1Bj0pYxtowBTAWlZ_xTBBeAM
+    // open recent result with update
+    /*    
+        public key: Observable<string>;
+
+    public places: Array<any>;
+    public placeData: Observable<any>;
+    loadThingsToDo(places, lat, long, placeData, key, currentLat, currentLong) {
+            placeData = "";
+            places = [];
+            lat = this.currentLat;
+            long = this.currentLong;
+            key = "AIzaSyDV5DaD-baiwy3xNbrT36ALKIxncLq43U0";
+            console.log(this.currentLat, this.currentLong);
+            this.placeData = this.httpClient.get("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + lat + "," + long + "&radius=2500&type=restaurant&keyword=bar&key=" + key);
+            this.placeData
+                .subscribe(data => {
+                    this.places = data.results;
+                })
+        } */
+
+
+    //categoryId=4bf58dd8d48988d182941735,4d4b7105d754a06374d81259

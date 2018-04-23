@@ -12,6 +12,7 @@
     "ionic:serve": "ionic-app-scripts serve"
   },
   "dependencies": {
+    "@agm/core": "^1.0.0-beta.2",
     "@angular/animations": "5.2.9",
     "@angular/common": "5.2.9",
     "@angular/compiler": "5.2.9",
@@ -23,6 +24,7 @@
     "@angular/platform-browser-dynamic": "5.2.9",
     "@ionic-native/core": "4.6.0",
     "@ionic-native/geolocation": "^4.7.0",
+    "@ionic-native/google-nearby": "^4.7.0",
     "@ionic-native/native-geocoder": "^4.7.0",
     "@ionic-native/splash-screen": "4.6.0",
     "@ionic-native/status-bar": "4.6.0",
@@ -32,6 +34,7 @@
     "cordova-plugin-add-swift-support": "^1.7.1",
     "cordova-plugin-device": "^2.0.2",
     "cordova-plugin-geolocation": "^4.0.1",
+    "cordova-plugin-google-nearby": "^1.1.0",
     "cordova-plugin-ionic-keyboard": "^2.0.5",
     "cordova-plugin-ionic-webview": "^1.2.0",
     "cordova-plugin-nativegeocoder": "^3.1.1",
@@ -45,6 +48,7 @@
   },
   "devDependencies": {
     "@ionic/app-scripts": "3.1.9",
+    "@types/googlemaps": "^3.30.8",
     "typescript": "~2.6.2"
   },
   "description": "An Ionic project",
@@ -58,6 +62,9 @@
       "cordova-plugin-geolocation": {},
       "cordova-plugin-nativegeocoder": {
         "LOCATION_WHEN_IN_USE_DESCRIPTION": "Use geocoder service"
+      },
+      "org.apache.cordova.nearby": {
+        "API_KEY": "baiwy3xNbrT36ALKIxncLq43U0"
       }
     },
     "platforms": [

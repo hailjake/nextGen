@@ -12,6 +12,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { IonicStorageModule } from '@ionic/storage';
 import { Geolocation } from '@ionic-native/geolocation';
 import { NativeGeocoder } from '@ionic-native/native-geocoder';
+import { GoogleNearby } from '@ionic-native/google-nearby';
+import { AgmCoreModule } from '@agm/core';
 
 @NgModule({
   declarations: [
@@ -20,6 +22,10 @@ import { NativeGeocoder } from '@ionic-native/native-geocoder';
     PlacesPage
   ],
   imports: [
+    AgmCoreModule.forRoot({
+      apiKey: "YAIzaSyDV5DaD-baiwy3xNbrT36ALKIxncLq43U0",
+      libraries: ["places"]
+    }),
     BrowserModule,
     HttpClientModule,
     IonicModule.forRoot(MyApp),
@@ -34,6 +40,7 @@ import { NativeGeocoder } from '@ionic-native/native-geocoder';
   providers: [
     Geolocation,
     NativeGeocoder,
+    GoogleNearby,
     StatusBar,
     SplashScreen,
     { provide: ErrorHandler, useClass: IonicErrorHandler }
