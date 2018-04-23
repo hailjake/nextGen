@@ -7,8 +7,10 @@
   </ion-navbar>
 </ion-header>
 
+
 <ion-content padding>
   <button ion-button clear (click)="loadThingsToDo()">find somehting to do!</button>
+  <h1>{{currentLat}}{{currentLong}}</h1>
 
   <ion-card *ngFor="let place of places">
     <img src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference={{place.photos[0].photo_reference}}&key=AIzaSyBnUd-L4TY1Bj0pYxtowBTAWlZ_xTBBeAM"
