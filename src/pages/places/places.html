@@ -11,15 +11,14 @@
 <ion-content padding>
   <!--   <button ion-button (click)="loadThingsToDo()">find somehting to do!</button>
  -->
-  <button ion-button block full (click)="fourApi()">four!</button>
+  <!--   <button ion-button block full (click)="fourApi()">four!</button>
 
   <h1>{{currentLat}}{{currentLong}}</h1>
 
-  {{goToPlace | json}} {{lat }}{{long}}
+  {{goToPlace | json}} {{lat }}{{long}} -->
 
 
   <ion-card *ngFor="let place of fourPlaces">
-    <img src="" />
     <ion-card-content>
       <ion-card-title>
         <h2>{{place.name}} {{place.location.address}} {{place.location.city}} {{place.location.state}}</h2>
@@ -27,8 +26,10 @@
 
       </ion-card-title>
       <p>
-        {{place.categories[0].name}} {{place.categories[0].icon.prefix}}{{place.categories[0].icon.suffix}} {{place.categories[0].id}}
+        <!--         {{place.categories[0].name}} {{place.categories[0].icon.prefix}}{{place.categories[0].icon.suffix}} {{place.categories[0].id}}
+ -->
       </p>
+      <button ion-button item-end>Details</button>
     </ion-card-content>
   </ion-card>
 

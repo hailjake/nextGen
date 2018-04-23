@@ -53,8 +53,6 @@
 
           <ion-item>
 
-            <ion-icon name="pin" item-start></ion-icon>
-
 
             <h2>{{item.recentCity}}, {{item.recentState}}</h2>
             <p>
@@ -88,10 +86,6 @@
 
             </p>
 
-            <button ion-button clear item-end (click)="goPlaces(item.lat, item.long)">
-              places
-            </button>
-
           </ion-item>
 
           <ion-item-options side="right">
@@ -100,8 +94,13 @@
               delete
             </button>
             <button ion-button color="light" (click)="searchRecent(item.recentCity, item.recentState)">
-              <ion-icon name="open"></ion-icon>
-              open
+              <ion-icon name="thermometer"></ion-icon>
+              update
+            </button>
+
+            <button ion-button color="danger" (click)="goPlaces(item.lat, item.long)">
+              <ion-icon name="pin"></ion-icon>
+              places
             </button>
           </ion-item-options>
 
