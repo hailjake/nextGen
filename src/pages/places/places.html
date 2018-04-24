@@ -30,7 +30,8 @@
     <ion-item>
       <ion-icon name="pin" item-start large></ion-icon>
       <h2>{{place.name}}</h2>
-      <p>{{place.location.address}}, {{place.location.city}} {{place.location.state}}</p>
+      <p>{{place.location.address}}
+        <span *ngIf="place.location.address">,</span> {{place.location.city}} {{place.location.state}}</p>
     </ion-item>
 
 

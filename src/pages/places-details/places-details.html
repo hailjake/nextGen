@@ -20,7 +20,7 @@
 
   </ion-card-content>
   <ion-card>
-    <ion-slides *ngFor="let photo of photos">
+    <ion-slides *ngFor="let photo of photos" loop>
       <ion-slide *ngFor="let item of photo.items">
         <img src="{{item.prefix}}300x200{{item.suffix}}" style="width: 100%;">
       </ion-slide>

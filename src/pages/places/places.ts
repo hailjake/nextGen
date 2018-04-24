@@ -105,9 +105,9 @@ export class PlacesPage {
         fourPlaces = [];
         lat = this.currentLat;
         long = this.currentLong;
-
+        const radius = "10000";
         const hotWeatherResults = "4d4b7104d754a06370d81259,56aa371be4b08b9a8d5734db,4fceea171983d5d06c3e9823,52e81612bcbc57f1066b79ea,52e81612bcbc57f1066b79eb,4bf58dd8d48988d17f941735,56aa371be4b08b9a8d5734de,56aa371be4b08b9a8d573514,4bf58dd8d48988d1f4931735,4bf58dd8d48988d182941735,4bf58dd8d48988d193941735,4d4b7105d754a06373d81259,5267e4d9e4b0ec79466e48c7,5267e4d9e4b0ec79466e48d1,5267e4d8e4b0ec79466e48c5";
-        this.fourPlaceData = this.httpClient.get("https://api.foursquare.com/v2/venues/search?ll=" + lat + "," + long + "&categoryId=" + hotWeatherResults + "&radius=25000&client_id=AZGPPKRH4O4VYXUAKN3BJZSGULVAJWTBGUVXKKLWU0W34DVQ&client_secret=SNSTJLXZGQHWKYQZA3PLIA3A1LYHWRKHFG43OXJGYJXIJ55I&v=20180522");
+        this.fourPlaceData = this.httpClient.get("https://api.foursquare.com/v2/venues/search?ll=" + lat + "," + long + "&categoryId=" + hotWeatherResults + "&radius=" + radius + "&client_id=AZGPPKRH4O4VYXUAKN3BJZSGULVAJWTBGUVXKKLWU0W34DVQ&client_secret=SNSTJLXZGQHWKYQZA3PLIA3A1LYHWRKHFG43OXJGYJXIJ55I&v=20180522");
         this.fourPlaceData
             .subscribe(data => {
                 this.fourPlaces = data.response.venues;
