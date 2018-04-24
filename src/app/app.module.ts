@@ -5,6 +5,9 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { PlacesPage } from '../pages/places/places';
+import { PlacesDetailsPage } from '../pages/places-details/places-details';
+
+
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -19,7 +22,8 @@ import { AgmCoreModule } from '@agm/core';
   declarations: [
     MyApp,
     HomePage,
-    PlacesPage
+    PlacesPage,
+    PlacesDetailsPage
   ],
   imports: [
     AgmCoreModule.forRoot({
@@ -35,7 +39,8 @@ import { AgmCoreModule } from '@agm/core';
   entryComponents: [
     MyApp,
     HomePage,
-    PlacesPage
+    PlacesPage,
+    PlacesDetailsPage
   ],
   providers: [
     Geolocation,

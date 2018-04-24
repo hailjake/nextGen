@@ -84,10 +84,10 @@
     <plugin name="cordova-plugin-nativegeocoder" spec="^3.1.1">
         <variable name="LOCATION_WHEN_IN_USE_DESCRIPTION" value="Use geocoder service" />
     </plugin>
-    <engine name="ios" spec="4.5.4" />
-    <engine name="android" spec="7.0.0" />
     <plugin name="org.apache.cordova.nearby" spec="~1.0.0">
         <variable name="API_KEY" value="baiwy3xNbrT36ALKIxncLq43U0" />
     </plugin>
     <plugin name="cordova-plugin-whitelist" spec="^1.3.3" />
+    <engine name="ios" spec="4.5.4" />
+    <engine name="android" spec="7.0.0" />
 </widget>

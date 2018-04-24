@@ -50,6 +50,8 @@ export class HomePage {
   // On Load
   ngOnInit() {
     this.presentLoading();
+
+
     this.storage.get('RecentSearches').then((val) => {
       if (val != null) {
         this.recentSearches = val;
@@ -106,9 +108,6 @@ export class HomePage {
   // close slide up panel
   closeWeather(city, state) {
     this.toggleWeather = !this.toggleWeather;
-    this.storage.get('RecentSearches').then((val) => {
-      console.log('recent', val);
-    });
   }
   // open recent result with update
   searchRecent(city, state) {
@@ -136,16 +135,18 @@ export class HomePage {
   //Remove single result
   deleteSingleResult(i, recentSearches) {
     this.presentLoading();
-    console.log(i);
     this.recentSearches.splice(i, 1);
     this.storage.set('RecentSearches', this.recentSearches);
   }
 
-  goPlaces(lat, long) {
-    console.log(lat, long);
+  goPlaces(lat, long, city, state, todaysWeatherTemp) {
     this.goToPlace.push({
       lat: lat,
-      long: long
+      long: long,
+      recentCity: city,
+      recentState: state,
+      todaysWeatherTemp: todaysWeatherTemp,
+
     })
     this.storage.set('Place', this.goToPlace);
 

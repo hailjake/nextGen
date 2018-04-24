@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { Storage } from '@ionic/storage';
 import { LoadingController } from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
+import { PlacesDetailsPage } from '../places-details/places-details';
 
 @Component({
     selector: 'page-places',
@@ -23,7 +24,15 @@ export class PlacesPage {
     public fourPlaceData: Observable<any>;
     public fourPlaces: Array<any>;
     public goToPlace: Array<any> = [];
+    public noData: boolean = false;
+    public temp: Observable<any>;
 
+    public city: Observable<any>;
+    public state: Observable<any>;
+
+
+    public moreDetailsData: Observable<any>;
+    public moreDetails: Array<any>;
     //Loader
     presentLoading() {
         let loader = this.loadingCtrl.create({
@@ -33,55 +42,87 @@ export class PlacesPage {
         loader.present();
     }
 
+
     // On Load
     ngOnInit() {
         this.presentLoading();
-        //this.getCoords(this.currentLat, this.currentLong);
-
 
         this.storage.get('Place').then((val) => {
             if (val != null) {
                 this.goToPlace = val;
-                this.currentLat = val[0].lat;
-                this.currentLong = val[0].long;
-                this.fourApi(this.lat, this.long, this.currentLat, this.currentLong, this.fourPlaceData, this.fourPlaces);
+                this.currentLat = val[val.length - 1].lat;
+                this.currentLong = val[val.length - 1].long;
+                this.city = val[val.length - 1].recentCity;
+                this.state = val[val.length - 1].recentState;
+                this.temp = val[val.length - 1].todaysWeatherTemp;
+                console.log(this.temp);
+                this.fourApi(this.lat, this.long, this.currentLat, this.currentLong, this.fourPlaceData, this.fourPlaces, this.city, this.state);
             } else {
-                console.log('no data');
+                this.getCoords(this.currentLat, this.currentLong);
+                this.fourApi(this.lat, this.long, this.currentLat, this.currentLong, this.fourPlaceData, this.fourPlaces, this.city, this.state);
+                console.log('fallback');
             }
 
         });
 
 
 
+
     }
-    /*     getCoords(currentLat, currentLong) {
-            currentLat = null;
-            currentLong = null;
-            this.geolocation.getCurrentPosition().then((resp) => {
-                this.currentLat = resp.coords.latitude;
-                this.currentLong = resp.coords.longitude;
-            }).catch((error) => {
-                console.log('Error getting location', error);
-            });
-            let watch = this.geolocation.watchPosition();
-            watch.subscribe((data) => {
-                // data can be a set of coordinates, or an error (if an error occurred).
-                this.currentLat = data.coords.latitude
-                this.currentLong = data.coords.longitude
+
+    /*     ionViewWillLeave() {
+            this.storage.set('Place', []).then((val) => {
+                if (val != null) {
+                    console.log(val);
+    
+                } else {
+                    console.log(val);
+                }
+    
             });
         } */
 
+    getCoords(currentLat, currentLong) {
+        currentLat = null;
+        currentLong = null;
+        this.geolocation.getCurrentPosition().then((resp) => {
+            this.currentLat = resp.coords.latitude;
+            this.currentLong = resp.coords.longitude;
+        }).catch((error) => {
+            console.log('Error getting location', error);
+        });
+        let watch = this.geolocation.watchPosition();
+        watch.subscribe((data) => {
+            // data can be a set of coordinates, or an error (if an error occurred).
+            this.currentLat = data.coords.latitude
+            this.currentLong = data.coords.longitude
+        });
+    }
+
     // open recent result with update
-    fourApi(lat, long, currentLat, currentLong, fourPlaceData, fourPlaces) {
+    fourApi(lat, long, currentLat, currentLong, fourPlaceData, fourPlaces, city, state) {
         fourPlaceData = "";
         fourPlaces = [];
         lat = this.currentLat;
         long = this.currentLong;
-        console.log(this.goToPlace, this.goToPlace);
         this.fourPlaceData = this.httpClient.get("https://api.foursquare.com/v2/venues/search?ll=" + lat + "," + long + "&categoryId=4bf58dd8d48988d182941735,4d4b7104d754a06370d81259,4d4b7105d754a06374d81259&client_id=AZGPPKRH4O4VYXUAKN3BJZSGULVAJWTBGUVXKKLWU0W34DVQ&client_secret=SNSTJLXZGQHWKYQZA3PLIA3A1LYHWRKHFG43OXJGYJXIJ55I&v=20180522");
         this.fourPlaceData
             .subscribe(data => {
                 this.fourPlaces = data.response.venues;
+            })
+    }
+
+
+
+    details(id) {
+        this.moreDetailsData = this.httpClient.get("https://api.foursquare.com/v2/venues/" + id + "?&oauth_token=TSRW3DTOK4WFIK0UXUYTPA5PDVIGICSVHPLVNRU0WDSHTXQ0&v=20180423");
+        this.moreDetailsData
+            .subscribe(data => {
+                this.moreDetails = data.response;
+                this.storage.set('Details', this.moreDetails);
+                console.log(this.moreDetails);
+                this.navCtrl.push(PlacesDetailsPage);
+
             })
     }
 

@@ -3,7 +3,7 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Places</ion-title>
+    <ion-title>things to do in {{city}}, {{state}}</ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -17,35 +17,30 @@
 
   {{goToPlace | json}} {{lat }}{{long}} -->
 
+  <ion-toolbar [ngClass]="temp >= 75 ? 'hot' : 'cold'">
+    <ion-title>Current Temp: {{temp}}°</ion-title>
+  </ion-toolbar>
+
+  <div *ngIf="" noData>
+    <h1> no data</h1>
+  </div>
 
   <ion-card *ngFor="let place of fourPlaces">
-    <ion-card-content>
-      <ion-card-title>
-        <h2>{{place.name}} {{place.location.address}} {{place.location.city}} {{place.location.state}}</h2>
+
+    <ion-item>
+      <ion-icon name="pin" item-start large></ion-icon>
+      <h2>{{place.name}}</h2>
+      <p>{{place.location.address}}, {{place.location.city}} {{place.location.state}}</p>
+    </ion-item>
 
 
-      </ion-card-title>
-      <p>
-        <!--         {{place.categories[0].name}} {{place.categories[0].icon.prefix}}{{place.categories[0].icon.suffix}} {{place.categories[0].id}}
- -->
-      </p>
-      <button ion-button item-end>Details</button>
-    </ion-card-content>
+    <ion-item>
+      <button ion-button icon-left clear item-end (click)="details(place.id)">
+        <ion-icon name="navigate"></ion-icon>
+        More Info
+      </button>
+    </ion-item>
+
   </ion-card>
-
-
-
-
-  <!--   <ion-card *ngFor="let place of places">
-    <img src="https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference={{place.photos[0].photo_reference}}&key=AIzaSyBnUd-L4TY1Bj0pYxtowBTAWlZ_xTBBeAM"
-    />
-    <ion-card-content>
-      <ion-card-title>
-        {{place.name}}
-      </ion-card-title>
-      <button ion-button>more details</button>
-    </ion-card-content>
-  </ion-card> -->
-
 
 </ion-content>

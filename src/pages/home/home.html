@@ -82,23 +82,23 @@
                 </span>
                 <span *ngSwitchDefault></span>
               </span>
-              {{item.todaysWeatherCondition}} {{item.lat}}{{item.long}}
+              {{item.todaysWeatherCondition}}
 
             </p>
 
           </ion-item>
 
           <ion-item-options side="right">
-            <button ion-button color="danger" (click)="deleteSingleResult(i)">
+            <button ion-button color="light" (click)="deleteSingleResult(i)">
               <ion-icon name="trash"></ion-icon>
               delete
             </button>
-            <button ion-button color="light" (click)="searchRecent(item.recentCity, item.recentState)">
+            <button ion-button color="default" (click)="searchRecent(item.recentCity, item.recentState)">
               <ion-icon name="thermometer"></ion-icon>
               update
             </button>
 
-            <button ion-button color="danger" (click)="goPlaces(item.lat, item.long)">
+            <button ion-button color="danger" (click)="goPlaces(item.lat, item.long, item.recentCity, item.recentState, item.todaysWeatherTemp)">
               <ion-icon name="pin"></ion-icon>
               places
             </button>

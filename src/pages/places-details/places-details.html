@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>details</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+
+  <ion-card>
+    <div *ngFor="let photo of photos">
+      <div *ngFor="let item of photo.items">
+        <img src="{{item.prefix}}300x200{{item.suffix}}" />
+      </div>
+    </div>
+
+    <ion-card-content>
+      <ion-card-title>
+        {{name}}
+      </ion-card-title>
+
+
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>
