@@ -18,6 +18,10 @@ export class PlacesDetailsPage {
     public details: Observable<any>;
     public name: Observable<any>;
     public photos: Array<any>;
+    public contactPhone: Observable<any>;
+    public description: Observable<any>;
+    public banner: Observable<any>;
+    public formattedAddress: Observable<any>;
 
     //Loader
     presentLoading() {
@@ -36,6 +40,12 @@ export class PlacesDetailsPage {
             if (val != null) {
                 this.details = val;
                 this.name = val.venue.name;
+                this.contactPhone = val.venue.contact.phone;
+                this.description = val.venue.page.pageInfo.description;
+                this.banner = val.venue.page.pageInfo.banner;
+                this.formattedAddress = val.venue.location.formattedAddress;
+
+
                 this.photos = val.venue.photos.groups;
 
             } else {

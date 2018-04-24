@@ -3,27 +3,51 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>details</ion-title>
+    <ion-title>{{name}}</ion-title>
   </ion-navbar>
 </ion-header>
 
-
 <ion-content padding>
 
-  <ion-card>
-    <div *ngFor="let photo of photos">
-      <div *ngFor="let item of photo.items">
-        <img src="{{item.prefix}}300x200{{item.suffix}}" />
-      </div>
+  <ion-toolbar [ngClass]="temp >= 75 ? 'hot' : 'cold'">
+    <div *ngIf="banner != undefined">
+      <img src="{{banner}}" />
+
     </div>
+  </ion-toolbar>
+
+  <ion-card-content>
+    <ion-card-title>
+      {{name}}
+    </ion-card-title>
+
+    <p *ngIf="description != undefined">{{description}}</p>
+  </ion-card-content>
+  <ion-card>
+    <ion-slides *ngFor="let photo of photos">
+      <ion-slide *ngFor="let item of photo.items">
+        <img src="{{item.prefix}}300x200{{item.suffix}}" style="width: 100%;">
+      </ion-slide>
+    </ion-slides>
 
     <ion-card-content>
-      <ion-card-title>
-        {{name}}
-      </ion-card-title>
 
-
+      <b>Address:</b>
+      <p>{{formattedAddress}}</p>
     </ion-card-content>
   </ion-card>
 
+  <ion-fab right bottom>
+    <a ion-fab color="primary">
+      <ion-icon name="arrow-dropleft"></ion-icon>
+    </a>
+    <ion-fab-list side="left">
+      <button ion-fab>
+        <ion-icon name="pin"></ion-icon>
+      </button>
+      <a ion-fab href="tel:+{{contactPhone}}">
+        <ion-icon name="call"></ion-icon>
+      </a>
+    </ion-fab-list>
+  </ion-fab>
 </ion-content>
