@@ -30,7 +30,6 @@ export class PlacesDetailsPage {
         loader.present();
     }
 
-
     // On Load
     ngOnInit() {
         this.presentLoading();
@@ -50,10 +49,6 @@ export class PlacesDetailsPage {
 
         });
 
-
-
-
     }
-
 
 }

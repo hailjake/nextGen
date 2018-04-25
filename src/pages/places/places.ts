@@ -15,8 +15,6 @@ import { PlacesDetailsPage } from '../places-details/places-details';
 export class PlacesPage {
     constructor(public navCtrl: NavController, public httpClient: HttpClient, private storage: Storage, public loadingCtrl: LoadingController, private geolocation: Geolocation) { }
 
-
-
     public lat: Observable<any>;
     public long: Observable<any>;
     public currentLat: number = null;
@@ -26,13 +24,11 @@ export class PlacesPage {
     public goToPlace: Array<any> = [];
     public noData: boolean = false;
     public temp: Observable<any>;
-
     public city: Observable<any>;
     public state: Observable<any>;
-
-
     public moreDetailsData: Observable<any>;
     public moreDetails: Array<any>;
+
     //Loader
     presentLoading() {
         let loader = this.loadingCtrl.create({
@@ -41,7 +37,6 @@ export class PlacesPage {
         });
         loader.present();
     }
-
 
     // On Load
     ngOnInit() {
@@ -64,23 +59,7 @@ export class PlacesPage {
             }
 
         });
-
-
-
-
     }
-
-    /*     ionViewWillLeave() {
-            this.storage.set('Place', []).then((val) => {
-                if (val != null) {
-                    console.log(val);
-    
-                } else {
-                    console.log(val);
-                }
-    
-            });
-        } */
 
     getCoords(currentLat, currentLong) {
         currentLat = null;
@@ -106,7 +85,7 @@ export class PlacesPage {
         lat = this.currentLat;
         long = this.currentLong;
         const radius = "10000";
-        const hotWeatherResults = "4d4b7104d754a06370d81259,56aa371be4b08b9a8d5734db,4fceea171983d5d06c3e9823,52e81612bcbc57f1066b79ea,52e81612bcbc57f1066b79eb,4bf58dd8d48988d17f941735,56aa371be4b08b9a8d5734de,56aa371be4b08b9a8d573514,4bf58dd8d48988d1f4931735,4bf58dd8d48988d182941735,4bf58dd8d48988d193941735,4d4b7105d754a06373d81259,5267e4d9e4b0ec79466e48c7,5267e4d9e4b0ec79466e48d1,5267e4d8e4b0ec79466e48c5";
+        const hotWeatherResults = "    52f2ab2ebcbc57f1066b8b41,4d4b7104d754a06370d81259,56aa371be4b08b9a8d5734db,4fceea171983d5d06c3e9823,52e81612bcbc57f1066b79ea,52e81612bcbc57f1066b79eb,4bf58dd8d48988d17f941735,56aa371be4b08b9a8d5734de,56aa371be4b08b9a8d573514,4bf58dd8d48988d1f4931735,4bf58dd8d48988d182941735,4bf58dd8d48988d193941735,4d4b7105d754a06373d81259,5267e4d9e4b0ec79466e48c7,5267e4d9e4b0ec79466e48d1,5267e4d8e4b0ec79466e48c5,52e81612bcbc57f1066b7a21,52e81612bcbc57f1066b7a0f,52e81612bcbc57f1066b7a0c,4bf58dd8d48988d1e4941735,4bf58dd8d48988d1e2941735,56aa371be4b08b9a8d57355e,52e81612bcbc57f1066b7a13,4bf58dd8d48988d1e3941735,4bf58dd8d48988d167941735,4bf58dd8d48988d163941735,4bf58dd8d48988d15e941735";
         this.fourPlaceData = this.httpClient.get("https://api.foursquare.com/v2/venues/search?ll=" + lat + "," + long + "&categoryId=" + hotWeatherResults + "&radius=" + radius + "&client_id=AZGPPKRH4O4VYXUAKN3BJZSGULVAJWTBGUVXKKLWU0W34DVQ&client_secret=SNSTJLXZGQHWKYQZA3PLIA3A1LYHWRKHFG43OXJGYJXIJ55I&v=20180522");
         this.fourPlaceData
             .subscribe(data => {
@@ -116,22 +95,21 @@ export class PlacesPage {
 
 
     details(id) {
+
         this.moreDetailsData = this.httpClient.get("https://api.foursquare.com/v2/venues/" + id + "?&oauth_token=TSRW3DTOK4WFIK0UXUYTPA5PDVIGICSVHPLVNRU0WDSHTXQ0&v=20180423");
         this.moreDetailsData
             .subscribe(data => {
                 this.moreDetails = data.response;
                 this.storage.set('Details', this.moreDetails);
-                console.log(this.moreDetails);
                 this.navCtrl.push(PlacesDetailsPage);
 
+
             })
+
+
     }
 
 }
-
-
-
-
 
 
     //  "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + lat + "," + long + "&radius=1500&type=restaurant&keyword=bar&key=AIzaSyBnUd-L4TY1Bj0pYxtowBTAWlZ_xTBBeAM"
